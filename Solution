@@ -1,0 +1,119 @@
+//Write a COMPLETE C program that determines if an input character string is of the form 
+//
+//x * y
+//
+//where x is a string consisting of the letters ‘A’ and ‘B’, and where y is the reverse of x (that is, if x = “ABABBA”, y must equal “ABBABA”). At each point you may read only the next character of the string. If the user enters a character other than ‘A’ ‘B’ or *, you should give error message and exit.
+//
+//For the sake of simplicity, assume that the input sequence of characters (user’s input) is stored in 1D character type array (in other words, array serves as a home for characters).
+//
+//HINT:  The algorithm to perform required operation can be written as follows 
+//              
+//while(char != *)                                                                                                                       {
+//push(stack, char)
+//char = next_char
+//}
+//while(char != end_of_processed_string) 
+//{if(char != pop(stack))  {
+//error
+//break
+//}
+//char = next_char;
+// } 
+//
+//Result of  display message will be  “The string is valid”  or “The string is invalid”.
+//
+//Example :
+//
+//Input string   : abbccba*abccbba   message will be The string is valid 
+//
+//                        aaabbcb*bcbaab     message will be The string is invalid
+//
+//aadbxcy*ycxbdaa     message will be Wrong character!!!
+//
+//
+//
+//
+//
+//
+
+
+#include<stdlib.h>
+#include<stdio.h>
+
+struct My_stack 
+{
+    char home[35];
+    int top;
+};
+
+
+void push (My_stack *, char); /* prototypes (declarations) of functions in use */
+char pop (My_stack *);         /* they implement standard operations on stack */
+int is_empty (My_stack *);
+
+int main(){
+My_stack st;
+	char input[50];   /* input sequence for processing */
+	//int i = 0;
+	char * charx;
+st.top = -1;   
+
+gets(input);
+charx = input;
+
+while(*charx != '*'){
+	if(*charx !='A' && *charx !='B')
+		{ 
+		  printf("Invalid Character\n");
+		   system("pause");
+		  exit(1);
+		 
+		}
+	else
+		{
+			push(&st, *charx);
+			charx = charx++;
+		}
+
+}
+charx = charx++;
+while(*charx != '\0') 
+{ if(*charx != pop(&st)) 
+		{
+			printf("The string is invalid\n");
+			system("pause");
+			exit(1);
+		}
+charx = charx++;
+ }
+printf("The string is valid\n");
+
+	system("pause");
+return 0;
+}
+
+
+
+
+void push(My_stack * s, char c)   // push (insert) operation
+{  // assume there is enough space for pushing next element!
+	s -> top ++;
+	s -> home[s -> top] = c; 
+}
+
+
+char pop(My_stack * s)   // pop (remove) operation
+{
+	if(is_empty(s))  
+	{ 
+		printf("ERROR: Nothing to pop - program terminates\n");
+		exit(1);
+		system("pause");
+	}
+	return (s -> home[s -> top--]);
+}
+
+int is_empty(My_stack * s)   // checking whether stack is empty or not
+{
+	return(s -> top < 0 ? 1 : 0);
+}
